@@ -1,0 +1,31 @@
+{
+  "name": "graphml-views-mongodb",
+  "version": "1.0.0",
+  "description": "generate collections from a MongoDB datasource by given graphmls",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/weflex/graphml-views-mongodb.git"
+  },
+  "keywords": [
+    "mongoDB",
+    "graphQL",
+    "graphML",
+    "views"
+  ],
+  "author": "Yorkie Liu <yorkiefixer@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/weflex/graphml-views-mongo/issues"
+  },
+  "homepage": "https://github.com/weflex/graphml-views-mongo#readme",
+  "dependencies": {
+    "glob": "^6.0.4",
+    "graphml-parser": "^1.4.0",
+    "lodash": "^4.0.1",
+    "mongodb": "^2.1.4"
+  }
+}
