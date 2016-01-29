@@ -106,7 +106,7 @@ Then you will get document:
 
 ### How it works
 
-The [graphml-views-mongodb] does parse a GraphML file and get fields collection that you want to include from
+The [Graphml-views-mongodb] does parse a GraphML file and get fields collection that you want to include from
 the source collections, and read the relations from pre-defined [Loopback] models, and generate the complete
 documents.
 
@@ -122,6 +122,7 @@ documents.
 
 MIT @ WeFlex, Inc.
 
+[Graphml-views-mongodb]: https://github.com/weflex/graphml-views-mongodb
 [GraphQL]: https://github.com/facebook/graphql
 [GraphML]: https://github.com/weflex/graphml
 [Loopback]: https://github.com/strongloop/loopback
