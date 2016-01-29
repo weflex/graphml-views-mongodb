@@ -1,7 +1,7 @@
 {
   "name": "graphml-views-mongodb",
   "version": "1.0.0",
-  "description": "generate collections from a MongoDB datasource by given graphmls",
+  "description": "Generate collections from a MongoDB datasource by given graphml files",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
