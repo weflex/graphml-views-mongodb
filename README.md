@@ -117,6 +117,7 @@ documents.
   - `dataSources` {Object} the object to take dataSources
     - `rest` {MongoDB} the resouce database instance
     - `view` {MongoDB} the view database instance
+  - `dir` the dirname path
 
 ## License
 
