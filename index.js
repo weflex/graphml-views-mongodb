@@ -118,7 +118,6 @@ class MongoView {
     });
   }
   fetch(where) {
-    console.log(this.name, where);
     let coll = this.dataSources.view.collection(this.name);
     return coll.find(where).toArray().then((items) => {
       return items.map((item) => ObjectID(item._id));
@@ -178,6 +177,9 @@ class MongoView {
       let filteredResults = items.map(item => {
         return config.fields.concat('_id').reduce((newItem, field) => {
           newItem[field] = item[field];
+          if (field === '_id') {
+            newItem.id = item._id;
+          }
           return newItem;
         }, {});
       }).map(item => {
