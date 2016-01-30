@@ -249,8 +249,8 @@ class MongoView {
   }
 }
 
-function parseGraphs (models, dataSources) {
-  const graphPath = path.join(__dirname, './specs');
+function parseGraphs (models, dataSources, dir) {
+  const graphPath = path.join(dir, './specs');
   return glob(graphPath + '/*.graphml').map((p) => {
     const name = path.basename(p, '.graphml');
     const source = fs.readFileSync(p).toString('utf8');
