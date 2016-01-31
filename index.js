@@ -142,6 +142,9 @@ class MongoView {
         filter = {
           _id: {$in: id}
         };
+      } else if (id.isPlainObject) {
+        delete id.isPlainObject;
+        filter = Object.assign({}, id);
       } else {
         filter = {
           _id: ObjectID(id)
@@ -181,20 +184,35 @@ class MongoView {
             newItem.id = item._id;
           }
           return newItem;
-        }, {});
+        }, {
+          _raw: item
+        });
       }).map(item => {
+        // copy item._raw into the variable `rawItem` for later usage
+        let rawItem = Object.assign({}, item._raw);
+        // delete the original _raw field
+        delete item._raw;
+
+        // start define the monads/promises
         let tasks = Object.keys(config.methods).map((methodName) => {
           let method = config.methods[methodName];
           let foreignKey;
           try {
             foreignKey = method.relation.foreignKey;
+            if (!foreignKey) {
+              throw new TypeError('unknown foreignKey');
+            }
           } catch (err) {
             console.error(method, err);
           }
           let $promise;
           switch (method.relation.type) {
             case 'belongsTo':
-              $promise = this.fetchItemOrItems(method, item[foreignKey])
+              let foreignId = rawItem[foreignKey];
+              if (foreignId === undefined) {
+                return null;
+              }
+              $promise = this.fetchItemOrItems(method, foreignId)
               .then((data) => {
                 return {
                   data: data[0],
@@ -203,7 +221,12 @@ class MongoView {
               });
               break;
             case 'hasMany':
-              $promise = this.fetchItemOrItems(method, item[foreignKey])
+              $promise = this.fetchItemOrItems(method, {
+                // in hasMany mode, taking the id of this mode, and put the following
+                // { [foreignKey]: id }
+                [foreignKey]: rawItem._id,
+                isPlainObject: true
+              })
               .then((data) => {
                 return {
                   data: data,
