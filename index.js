@@ -34,6 +34,10 @@ class MongoView {
       ast.isRoot = true;
     }
     let model = this.models[type];
+    if (!model) {
+      console.warn(`Skip a model "${type}"`);
+      return;
+    }
     let relations = model.relations;
     for (let name in ast.methods) {
       let method = ast.methods[name];
@@ -232,6 +236,15 @@ class MongoView {
                   data: data,
                   name: method.name
                 }
+              });
+              break;
+            case 'referencesMany':
+              $promise = this.fetchItemOrItems(method, rawItem.roleIds)
+              .then((data) => {
+                return {
+                  data: data,
+                  name: method.name,
+                };
               });
               break;
             default:
