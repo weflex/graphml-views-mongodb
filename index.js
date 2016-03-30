@@ -35,8 +35,9 @@ class MongoView {
     }
     let model = this.models[type];
     if (!model) {
-      console.warn(`Skip a model "${type}"`);
       return;
+      throw new Error(
+        'occuring an error when parsing the model `' + type + '`.');
     }
     let relations = model.relations;
     for (let name in ast.methods) {
@@ -150,8 +151,14 @@ class MongoView {
         delete id.isPlainObject;
         filter = Object.assign({}, id);
       } else {
+        let newId;
+        try {
+          newId = ObjectID(id);
+        } catch (err) {
+          newId = id;
+        }
         filter = {
-          _id: ObjectID(id)
+          _id: newId,
         };
       }
     }
@@ -273,7 +280,11 @@ class MongoView {
     return coll.deleteMany({
       _id: {$in: _.map(results, '_id')}
     }).then(() => {
-      return coll.insertMany(results);
+      if (results.length > 0) {
+        return coll.insertMany(results);
+      } else {
+        return results;
+      }
     });
   }
   updateToViewsDb(results) {
